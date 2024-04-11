@@ -4,6 +4,8 @@ import android.accessibilityservice.AccessibilityServiceInfo
 import android.os.Build
 import com.stardust.autojs.core.pref.Pref
 import com.stardust.view.accessibility.AccessibilityService
+import com.stardust.view.accessibility.CustomDelegate
+import com.stardust.view.accessibility.CustomDelegateListener
 
 class AccessibilityService : AccessibilityService() {
 
@@ -25,4 +27,14 @@ class AccessibilityService : AccessibilityService() {
         setServiceInfo(serviceInfo)
         super.onServiceConnected()
     }
+
+    private var customDelegate : CustomDelegate? = null;
+    fun addEventListener(listner: CustomDelegateListener) {
+        if(customDelegate == null){
+            customDelegate = CustomDelegate()
+            com.stardust.view.accessibility.AccessibilityService.addDelegate(50, customDelegate!!);
+        }
+        customDelegate!!.addListener(listner);
+    }
+
 }
